@@ -1,5 +1,5 @@
 group 'com.yo1000'
-version '1.0-SNAPSHOT'
+version '0.1.1-RELEASE'
 
 apply plugin: 'groovy'
 
@@ -8,7 +8,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.3'
-    compile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    compile 'org.codehaus.groovy:groovy-core:2.4.3'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
