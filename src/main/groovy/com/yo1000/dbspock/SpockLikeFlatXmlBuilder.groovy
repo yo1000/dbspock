@@ -31,6 +31,7 @@ class SpockLikeFlatXmlBuilder extends GroovyObjectSupport {
         def builder = new StringBuilder(name)
 
         for (def i = 0; i < cols.size(); i++) {
+            if (arg[i] == null) continue
             builder.append(/ ${cols[i]}="${arg[i]}"/)
         }
 
