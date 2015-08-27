@@ -10,7 +10,7 @@ pom.xml
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock</artifactId>
-        <version>0.1.1-RELEASE</version>
+        <version>0.1.2.RELEASE</version>
     </dependency>
 </dependencies>
     
