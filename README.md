@@ -42,11 +42,15 @@ class RepositorySpec extends Specification {
             
             build()
         }
-        data.delegate = new SpockLikeFlatXmlBuilder()
-
-        tester.dataSet = new FlatXmlDataSet(new StringReader(data.call()))
-        tester.onSetup()
+        def flatxml = {
+            data.call()
+            data.build()
+        }
         
+        data.delegate = new SpockLikeFlatXmlBuilder()
+        tester.dataSet = new FlatXmlDataSet(new StringReader(flatxml.call()))
+        tester.onSetup()
+
         expect:
         // Something with DB access.
         
