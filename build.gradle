@@ -18,6 +18,23 @@ subprojects {
         testCompile 'junit:junit:4.11'
         testCompile 'org.spockframework:spock-core:1.1-groovy-2.4-rc-2'
     }
+}
+
+project(':dbspock-core') {
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: uri(mavenRepository))
+            }
+        }
+    }
+}
+
+project(':dbspock-dbsetup') {
+    dependencies {
+        compile project(':dbspock-core')
+        compile 'com.ninja-squad:DbSetup:2.1.0'
+    }
 
     uploadArchives {
         repositories {
@@ -28,30 +45,27 @@ subprojects {
     }
 }
 
-project(':dbspock-core') {
-    jar {
-        from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-project(':dbspock-dbsetup') {
-    dependencies {
-        compile project(':dbspock-core')
-        compile 'com.ninja-squad:DbSetup:2.1.0'
-    }
-
-    jar {
-        from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
 project(':dbspock-dbunit') {
     dependencies {
         compile project(':dbspock-core')
         compile 'org.dbunit:dbunit:2.5.3'
     }
 
-    jar {
-        from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: uri(mavenRepository))
+            }
+        }
+    }
+}
+
+project(':dbspock-specs') {
+    dependencies {
+        testCompile project(':dbspock-core')
+        testCompile project(':dbspock-dbsetup')
+        testCompile project(':dbspock-dbunit')
+        testCompile 'com.h2database:h2:1.4.192'
+        testCompile 'org.flywaydb:flyway-core:4.0.3'
     }
 }
