@@ -1,16 +1,34 @@
 # dbspock
-Using Spock with DBUnit.
+
+Expresses the data as Spockly!
 
 # Usage
 
-pom.xml
+Can be used in `DbSetup` or `DBUnit`
+
+## for DbSetup
+
+Dependency
 
 ```xml
 <dependencies>
     <dependency>
         <groupId>com.yo1000</groupId>
-        <artifactId>dbspock</artifactId>
-        <version>0.1.2.RELEASE</version>
+        <artifactId>dbspock-core</artifactId>
+        <version>1.0.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.yo1000</groupId>
+        <artifactId>dbspock-dbsetup</artifactId>
+        <version>1.0.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.ninja-squad</groupId>
+        <artifactId>DbSetup</artifactId>
+        <version>2.1.0</version>
+        <scope>test</scope>
     </dependency>
 </dependencies>
     
@@ -23,39 +41,79 @@ pom.xml
 </repositories>
 ```
 
-Spec class
+Setup in spec
 
 ```groovy
-class RepositorySpec extends Specification {
-    def "DBSpockTest"() {
-        setup:
-        def tester = new DataSourceDatabaseTester(dataSource)
-
-        def data = {
-            _cols_ 'SHOP_ID' | 'SHOP_NAME'     | 'SHOP_CREATED' | 'SHOP_MODIFIED'
-            shop   'SP-1'    | 'BURGER KING'   | '2015-04-01'   | '2015-04-01'
-            shop   'SP-2'    | 'RANDYS DONUTS' | '2015-04-01'   | '2015-04-01'
-
-            _cols_   'CSTM_ID' | 'CSTM_NAME'    | 'CSTM_SEX' | 'CSTM_CREATED' | 'CSTM_MODIFIED'
-            customer 'CS1X'    | 'Tony Stark'   | '1'        | '2015-04-01'   | '2015-04-01'
-            customer 'CS2X'    | 'PEPPER Potts' | '2'        | '2015-04-01'   | '2015-04-01'
-            
-            build()
-        }
-        def flatxml = {
-            data.call()
-            data.build()
-        }
-        
-        data.delegate = new SpockLikeFlatXmlBuilder()
-        tester.dataSet = new FlatXmlDataSet(new StringReader(flatxml.call()))
-        tester.onSetup()
-
-        expect:
-        // Something with DB access.
-        
-        where:
-        // Setting parameters by Spock.
+setup:
+def insertOps = DbspockOperations.insertInto {
+    test_table {
+        col 'test_int' | 'test_str' | 'test_date'
+        row 100        | 'test1'    | '2016-09-26 23:20:01.0'
+        row 200        | 'test2'    | '2016-09-26 23:20:02.0'
+        row 300        | 'test3'    | '2016-09-26 23:20:03.0'
     }
 }
+
+def destination = new DriverManagerDestination(URL, USERNAME, PASSWORD)
+new DbSetup(destination,
+        Operations.sequenceOf(
+                Operations.truncate('test_table'),
+                insertOps
+        )
+).launch()
+```
+
+## for DBUnit
+
+Dependency
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.yo1000</groupId>
+        <artifactId>dbspock-core</artifactId>
+        <version>1.0.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.yo1000</groupId>
+        <artifactId>dbspock-dbunit</artifactId>
+        <version>1.0.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.dbunit</groupId>
+        <artifactId>dbunit</artifactId>
+        <version>2.5.3</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+    
+<repositories>
+    <repository>
+        <id>com.yo1000</id>
+        <name>yo1000 maven repository</name>
+        <url>http://yo1000.github.io/maven/</url>
+    </repository>
+</repositories>
+```
+
+Setup in spec
+
+```groovy
+setup:
+def dataSet = DbspockLoaders.loadDataSet {
+    test_table {
+        col 'test_int' | 'test_str' | 'test_date'
+        row 100        | 'test1'    | '2016-09-26 23:20:01.0'
+        row 200        | 'test2'    | '2016-09-26 23:20:02.0'
+        row 300        | 'test3'    | '2016-09-26 23:20:03.0'
+    }
+}
+
+def databaseTester = new JdbcDatabaseTester(Driver.class.getName(), URL, USERNAME, PASSWORD)
+databaseTester.setUpOperation = DatabaseOperation.CLEAN_INSERT
+
+databaseTester.dataSet = dataSet
+databaseTester.onSetup()
 ```

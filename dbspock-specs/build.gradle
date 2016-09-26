@@ -1,0 +1,20 @@
+group 'com.yo1000'
+version '1.0.0.RELEASE'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'groovy'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy:2.4.3'
+
+    testCompile project(':dbspock-core')
+    testCompile project(':dbspock-dbsetup')
+    testCompile project(':dbspock-dbunit')
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4-rc-2'
+    testCompile 'com.h2database:h2:1.4.192'
+    testCompile 'org.flywaydb:flyway-core:4.0.3'
+}

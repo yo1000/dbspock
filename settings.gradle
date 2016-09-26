@@ -1,2 +1,1 @@
-rootProject.name = 'dbspock'
-
+include 'dbspock-core', 'dbspock-dbsetup', 'dbspock-dbunit', 'dbspock-specs'

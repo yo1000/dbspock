@@ -1,13 +1,57 @@
-group 'com.yo1000'
-version '0.1.2.RELEASE'
-
-apply plugin: 'groovy'
-
-repositories {
-    mavenCentral()
+ext {
+    mavenRepository = "$projectDir/../maven"
 }
 
-dependencies {
-    compile 'org.codehaus.groovy:groovy:2.4.3'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+subprojects {
+    group 'com.yo1000'
+    version '1.0.0.RELEASE'
+
+    apply plugin: 'groovy'
+    apply plugin: 'maven'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.codehaus.groovy:groovy:2.4.3'
+        testCompile 'junit:junit:4.11'
+        testCompile 'org.spockframework:spock-core:1.1-groovy-2.4-rc-2'
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: uri(mavenRepository))
+            }
+        }
+    }
+}
+
+project(':dbspock-core') {
+    jar {
+        from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+project(':dbspock-dbsetup') {
+    dependencies {
+        compile project(':dbspock-core')
+        compile 'com.ninja-squad:DbSetup:2.1.0'
+    }
+
+    jar {
+        from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+project(':dbspock-dbunit') {
+    dependencies {
+        compile project(':dbspock-core')
+        compile 'org.dbunit:dbunit:2.5.3'
+    }
+
+    jar {
+        from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
