@@ -7,7 +7,7 @@ import spock.lang.Specification
  * @author yo1000
  */
 class TablesSpec extends Specification {
-    def "operation"() {
+    def "Translate Closure to Table"() {
         setup:
         def data = {
             table1 {
@@ -31,10 +31,10 @@ class TablesSpec extends Specification {
 
         def tables = data.tables as List<Table>
 
-        assert tables[0].table == 'table1'
-        assert tables[0].col.values[0] == 'c1'
-        assert tables[0].col.values[1] == 'c2'
-        assert tables[0].col.values[2] == 'c3'
+        assert tables[0].name == 'table1'
+        assert tables[0].col.names[0] == 'c1'
+        assert tables[0].col.names[1] == 'c2'
+        assert tables[0].col.names[2] == 'c3'
         assert tables[0].rows[0].values[0] == 'r1c1'
         assert tables[0].rows[0].values[1] == 'r1c2'
         assert tables[0].rows[0].values[2] == 'r1c3'
@@ -42,10 +42,10 @@ class TablesSpec extends Specification {
         assert tables[0].rows[1].values[1] == 'r2c2'
         assert tables[0].rows[1].values[2] == 'r2c3'
 
-        assert tables[1].table == 'table2'
-        assert tables[1].col.values[0] == 'cStr'
-        assert tables[1].col.values[1] == 'cInt'
-        assert tables[1].col.values[2] == 'cDate'
+        assert tables[1].name == 'table2'
+        assert tables[1].col.names[0] == 'cStr'
+        assert tables[1].col.names[1] == 'cInt'
+        assert tables[1].col.names[2] == 'cDate'
         assert tables[1].rows[0].values[0] == 'str1'
         assert tables[1].rows[0].values[1] == 100
         assert tables[1].rows[0].values[2] == '2016-09-26 18:46:01'

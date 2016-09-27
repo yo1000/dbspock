@@ -22,20 +22,20 @@ class DbspockOperations {
         def opsList = []
 
         tables.each {
-            def ops = Operations.insertInto(it.table)
+            def ops = Operations.insertInto(it.name)
             def table = it
             int rowSize = table.rows.size()
 
             (0..<rowSize).each {
                 def row = ops.row()
                 int rowIndex = it
-                int colSize = table.col.values.size()
+                int colSize = table.col.names.size()
 
                 (0..<colSize).each {
                     int colIndex = it
 
                     row.column(
-                            table.col.values[colIndex],
+                            table.col.names[colIndex],
                             table.rows[rowIndex].values[colIndex]
                     )
                 }

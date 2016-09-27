@@ -37,11 +37,11 @@ class Tables {
 }
 
 class Table {
-    private String table
+    private String name
     private Col col
     private List<Row> rows
 
-    Table(table) {
+    Table(name) {
         Object.metaClass.or = { x ->
             if (!(delegate instanceof List)) {
                 return [delegate, x]
@@ -49,7 +49,7 @@ class Table {
             delegate << x
         }
 
-        this.table = table
+        this.name = name
     }
 
     def col(List cols) {
@@ -66,8 +66,8 @@ class Table {
         return row
     }
 
-    def getTable() {
-        return table
+    def getName() {
+        return name
     }
 
     def getCol() {
@@ -80,14 +80,14 @@ class Table {
 }
 
 class Col {
-    List<String> values;
+    List<String> names;
 
-    Col(List values) {
-        this.values = values
+    Col(List names) {
+        this.names = names
     }
 
-    List getValues() {
-        return values
+    List getNames() {
+        return names
     }
 }
 
