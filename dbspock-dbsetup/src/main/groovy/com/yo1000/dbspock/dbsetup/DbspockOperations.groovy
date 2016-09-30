@@ -22,19 +22,19 @@ class DbspockOperations {
         tables.each {
             def ops = Operations.insertInto(it.name)
             def table = it
-            int rowSize = table.rows.rows.size()
+            int rowSize = table.rows.size()
 
             (0..<rowSize).each {
                 def row = ops.row()
                 int rowIndex = it
-                int colSize = table.columns.columns.size()
+                int colSize = table.columns.size()
 
                 (0..<colSize).each {
                     int colIndex = it
 
                     row.column(
-                            table.columns.columns[colIndex].name,
-                            table.rows.rows[rowIndex].items[colIndex].value
+                            table.columns[colIndex].name,
+                            table.rows[rowIndex].value[colIndex]
                     )
                 }
 

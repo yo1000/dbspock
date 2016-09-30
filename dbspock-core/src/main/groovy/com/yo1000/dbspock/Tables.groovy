@@ -17,7 +17,7 @@ class TableParser {
         if (threadLocal.get().rows == null) {
             threadLocal.get().rows = new Rows()
         }
-        threadLocal.get().rows.rows << row
+        threadLocal.get().rows << row
         return row
     }
 
@@ -34,7 +34,7 @@ class TableParser {
 
         Column column = new Column(name)
 
-        columns.columns << column
+        columns << column
         threadLocal.get().columns = columns
         return column
     }
@@ -113,22 +113,16 @@ class Column {
     }
 }
 
-class Columns {
-    private List<Column> columns = []
-
+class Columns extends ArrayList<Column> {
     Columns(Column... columns) {
         columns.each {
-            this.columns << it
+            this << it
         }
     }
 
     Columns or(Column column) {
-        columns << column
+        this << column
         return this
-    }
-
-    List<Column> getColumns() {
-        return columns
     }
 }
 
@@ -151,52 +145,26 @@ class Item {
     }
 }
 
-class Rows {
-    private List<Row> rows = []
-
+class Rows extends ArrayList<Row> {
     Rows(Row... rows) {
         rows.each {
-            rows << it
+            this << it
         }
-    }
-
-    List<Row> getRows() {
-        return rows
     }
 }
 
-class Row {
-    private List<Item> items = []
-
+class Row extends ArrayList<Item> {
     Row(Item... items) {
         items.each {
-            this.items << it
-        }
-    }
-
-    Row(Row row, Item... items) {
-        row.items.each {
-            this.items << it
-        }
-
-        items.each {
-            this.items << it
+            this << it
         }
     }
 
     Row or(Object value) {
         if (value instanceof Item) {
-            return items << value
+            return this << value
         }
-        items << new Item(value)
+        this << new Item(value)
         return this
-    }
-
-    List<Item> getItems() {
-        return items
-    }
-
-    void setItems(List<Item> items) {
-        this.items = items
     }
 }

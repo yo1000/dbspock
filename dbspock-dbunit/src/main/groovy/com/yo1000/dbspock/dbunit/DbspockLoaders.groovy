@@ -23,17 +23,17 @@ class DbspockLoaders {
         tables.each {
             def table = it
             def tableName = it.name
-            int rowSize = table.rows.rows.size()
+            int rowSize = table.rows.size()
 
             (0..<rowSize).each {
                 def rowBuilder = new StringBuilder(tableName)
                 int rowIndex = it
-                int colSize = table.columns.columns.size()
+                int colSize = table.columns.size()
 
                 (0..<colSize).each {
                     int colIndex = it
-                    def col = table.columns.columns[colIndex].name
-                    def row = table.rows.rows[rowIndex].items[colIndex].value
+                    def col = table.columns[colIndex].name
+                    def row = table.rows[rowIndex].value[colIndex]
 
                     if (row == null) return
                     rowBuilder.append(/ ${col}="${row}"/)
