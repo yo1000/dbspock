@@ -23,17 +23,17 @@ class DbspockLoaders {
         tables.each {
             def table = it
             def tableName = it.name
-            int rowSize = table.rows.size()
+            int rowSize = table.rows.rows.size()
 
             (0..<rowSize).each {
                 def rowBuilder = new StringBuilder(tableName)
                 int rowIndex = it
-                int colSize = table.col.names.size()
+                int colSize = table.columns.columns.size()
 
                 (0..<colSize).each {
                     int colIndex = it
-                    def col = table.col.names[colIndex]
-                    def row = table.rows[rowIndex].values[colIndex]
+                    def col = table.columns.columns[colIndex].name
+                    def row = table.rows.rows[rowIndex].items[colIndex].value
 
                     if (row == null) return
                     rowBuilder.append(/ ${col}="${row}"/)
@@ -42,8 +42,8 @@ class DbspockLoaders {
                 dataSetBuilder.append("<${rowBuilder.toString()}/>")
             }
         }
-
         dataSetBuilder.append("</dataset>")
+
         return new FlatXmlDataSet(new StringReader(dataSetBuilder.toString()))
     }
 }

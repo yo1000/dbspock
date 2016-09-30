@@ -32,10 +32,10 @@ class DbspockSpec extends Specification {
         setup:
         def insertOps = DbspockOperations.insertInto {
             test_table {
-                col 'test_int' | 'test_str' | 'test_date'
-                row 100        | 'test1'    | '2016-09-26 23:20:01.0'
-                row 200        | 'test2'    | '2016-09-26 23:20:02.0'
-                row 300        | 'test3'    | '2016-09-26 23:20:03.0'
+                test_int   | test_str   | test_date
+                100        | 'test1'    | '2016-09-26 23:20:01.0'
+                200        | 'test2'    | '2016-09-26 23:20:02.0'
+                300        | 'test3'    | '2016-09-26 23:20:03.0'
             }
         }
 
@@ -75,10 +75,10 @@ class DbspockSpec extends Specification {
         setup:
         def dataSet = DbspockLoaders.loadDataSet {
             test_table {
-                col 'test_int' | 'test_str' | 'test_date'
-                row 100        | 'test1'    | '2016-09-26 23:20:01.0'
-                row 200        | 'test2'    | '2016-09-26 23:20:02.0'
-                row 300        | 'test3'    | '2016-09-26 23:20:03.0'
+                test_int   | test_str   | test_date
+                100        | 'test1'    | '2016-09-26 23:20:01.0'
+                200        | 'test2'    | '2016-09-26 23:20:02.0'
+                300        | 'test3'    | '2016-09-26 23:20:03.0'
             }
         }
 
