@@ -15,13 +15,13 @@ Dependency
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-core</artifactId>
-        <version>1.1.0.RELEASE</version>
+        <version>2.0.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-dbsetup</artifactId>
-        <version>1.1.0.RELEASE</version>
+        <version>2.0.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
@@ -47,10 +47,10 @@ Setup in spec
 setup:
 def insertOps = DbspockOperations.insertInto {
     test_table {
-        col 'test_int' | 'test_str' | 'test_date'
-        row 100        | 'test1'    | '2016-09-26 23:20:01.0'
-        row 200        | 'test2'    | '2016-09-26 23:20:02.0'
-        row 300        | 'test3'    | '2016-09-26 23:20:03.0'
+        'test_int' | 'test_str' | 'test_date'
+        100        | 'test1'    | '2016-09-26 23:20:01.0'
+        200        | 'test2'    | '2016-09-26 23:20:02.0'
+        300        | 'test3'    | '2016-09-26 23:20:03.0'
     }
 }
 
@@ -72,13 +72,13 @@ Dependency
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-core</artifactId>
-        <version>1.1.0.RELEASE</version>
+        <version>2.0.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-dbunit</artifactId>
-        <version>1.1.0.RELEASE</version>
+        <version>2.0.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
@@ -104,10 +104,10 @@ Setup in spec
 setup:
 def dataSet = DbspockLoaders.loadDataSet {
     test_table {
-        col 'test_int' | 'test_str' | 'test_date'
-        row 100        | 'test1'    | '2016-09-26 23:20:01.0'
-        row 200        | 'test2'    | '2016-09-26 23:20:02.0'
-        row 300        | 'test3'    | '2016-09-26 23:20:03.0'
+        'test_int' | 'test_str' | 'test_date'
+        100        | 'test1'    | '2016-09-26 23:20:01.0'
+        200        | 'test2'    | '2016-09-26 23:20:02.0'
+        300        | 'test3'    | '2016-09-26 23:20:03.0'
     }
 }
 
