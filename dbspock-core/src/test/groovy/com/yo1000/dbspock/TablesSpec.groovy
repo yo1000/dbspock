@@ -21,6 +21,18 @@ class TablesSpec extends Specification {
                 'str1' | 100    | '2016-09-26 18:46:01'
                 'str2' | 200    | '2016-09-26 18:46:02'
             }
+
+            table3 {
+                cInt | cStr
+                100  | 'str1'
+                200  | 'str2'
+            }
+
+            table4 {
+                cNull | cStr
+                null  | 'str1'
+                null  | 'str2'
+            }
         }
 
         data.delegate = new Tables()
@@ -66,5 +78,21 @@ class TablesSpec extends Specification {
         assert tables[1].rows[1].value[0] == 'str2'
         assert tables[1].rows[1].value[1] == 200
         assert tables[1].rows[1].value[2] == '2016-09-26 18:46:02'
+
+        assert tables[2].name == 'table3'
+        assert tables[2].columns[0].name == 'cInt'
+        assert tables[2].columns[1].name == 'cStr'
+        assert tables[2].rows[0].value[0] == 100
+        assert tables[2].rows[0].value[1] == 'str1'
+        assert tables[2].rows[1].value[0] == 200
+        assert tables[2].rows[1].value[1] == 'str2'
+
+        assert tables[3].name == 'table4'
+        assert tables[3].columns[0].name == 'cNull'
+        assert tables[3].columns[1].name == 'cStr'
+        assert tables[3].rows[0].value[0].is(null)
+        assert tables[3].rows[0].value[1] == 'str1'
+        assert tables[3].rows[1].value[0].is(null)
+        assert tables[3].rows[1].value[1] == 'str2'
     }
 }
