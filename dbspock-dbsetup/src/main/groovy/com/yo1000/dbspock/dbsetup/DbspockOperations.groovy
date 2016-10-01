@@ -4,8 +4,6 @@ import com.ninja_squad.dbsetup.Operations
 import com.ninja_squad.dbsetup.operation.Operation
 import com.yo1000.dbspock.Table
 import com.yo1000.dbspock.Tables
-
-
 /**
  *
  * @author yo1000
@@ -29,14 +27,14 @@ class DbspockOperations {
             (0..<rowSize).each {
                 def row = ops.row()
                 int rowIndex = it
-                int colSize = table.col.names.size()
+                int colSize = table.columns.size()
 
                 (0..<colSize).each {
                     int colIndex = it
 
                     row.column(
-                            table.col.names[colIndex],
-                            table.rows[rowIndex].values[colIndex]
+                            table.columns[colIndex].name,
+                            table.rows[rowIndex].value[colIndex]
                     )
                 }
 
