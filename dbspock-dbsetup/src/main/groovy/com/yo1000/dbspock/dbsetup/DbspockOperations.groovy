@@ -2,6 +2,7 @@ package com.yo1000.dbspock.dbsetup
 
 import com.ninja_squad.dbsetup.Operations
 import com.ninja_squad.dbsetup.operation.Operation
+import com.yo1000.dbspock.RotateTables
 import com.yo1000.dbspock.Table
 import com.yo1000.dbspock.Tables
 /**
@@ -14,6 +15,13 @@ class DbspockOperations {
         data.call()
 
         return insertInto(data.tables as List<Table>)
+    }
+
+    public static Operation insertIntoWithRotate(Closure data) {
+        data.delegate = new RotateTables()
+        data.call()
+
+        return insertInto(data.rotate().tables as List<Table>)
     }
 
     protected static Operation insertInto(List<Table> tables) {

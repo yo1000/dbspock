@@ -43,6 +43,14 @@ class TableParser {
 class Tables {
     private List<Table> tables = []
 
+    Tables() {}
+
+    Tables(Table... tables) {
+        tables.each {
+            this.tables << it
+        }
+    }
+
     @Override
     Object invokeMethod(String name, Object args) {
         if (args == null) {

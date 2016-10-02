@@ -1,5 +1,6 @@
 package com.yo1000.dbspock.dbunit
 
+import com.yo1000.dbspock.RotateTables
 import com.yo1000.dbspock.Table
 import com.yo1000.dbspock.Tables
 import org.dbunit.dataset.IDataSet
@@ -15,6 +16,13 @@ class DbspockLoaders {
         data.call()
 
         return loadDataSet(data.tables as List<Table>)
+    }
+
+    public static IDataSet loadDataSetWithRotate(Closure data) {
+        data.delegate = new RotateTables()
+        data.call()
+
+        return loadDataSet(data.rotate().tables as List<Table>)
     }
 
     protected static IDataSet loadDataSet(List<Table> tables) {

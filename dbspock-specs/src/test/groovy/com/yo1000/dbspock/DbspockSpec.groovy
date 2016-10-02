@@ -71,6 +71,48 @@ class DbspockSpec extends Specification {
                 .format(resultSet.getTimestamp('test_date'))
     }
 
+    def "DbSetup integration test with rotate"() {
+        setup:
+        def insertOps = DbspockOperations.insertIntoWithRotate {
+            test_table {
+                test_int  | 100                     | 200                     | 300
+                test_str  | 'test1'                 | 'test2'                 | 'test3'
+                test_date | '2016-09-26 23:20:01.0' | '2016-09-26 23:20:02.0' | '2016-09-26 23:20:03.0'
+            }
+        }
+
+        def destination = new DriverManagerDestination(URL, USERNAME, PASSWORD)
+        new DbSetup(destination,
+                Operations.sequenceOf(
+                        Operations.truncate('test_table'),
+                        insertOps
+                )
+        ).launch()
+
+        expect:
+        def statement = destination.connection.createStatement()
+        ResultSet resultSet = statement.executeQuery(
+                'SELECT test_int, test_str, test_date FROM test_table ORDER BY test_int')
+
+        assert resultSet.next()
+        assert 100 == resultSet.getInt('test_int')
+        assert 'test1' == resultSet.getString('test_str')
+        assert '2016-09-26 23:20:01.0' == new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.S')
+                .format(resultSet.getTimestamp('test_date'))
+
+        assert resultSet.next()
+        assert 200 == resultSet.getInt('test_int')
+        assert 'test2' == resultSet.getString('test_str')
+        assert '2016-09-26 23:20:02.0' == new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.S')
+                .format(resultSet.getTimestamp('test_date'))
+
+        assert resultSet.next()
+        assert 300 == resultSet.getInt('test_int')
+        assert 'test3' == resultSet.getString('test_str')
+        assert '2016-09-26 23:20:03.0' == new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.S')
+                .format(resultSet.getTimestamp('test_date'))
+    }
+
     def "DBUnit integration test"() {
         setup:
         def dataSet = DbspockLoaders.loadDataSet {
@@ -79,6 +121,46 @@ class DbspockSpec extends Specification {
                 100        | 'test1'    | '2016-09-26 23:20:01.0'
                 200        | 'test2'    | '2016-09-26 23:20:02.0'
                 300        | 'test3'    | '2016-09-26 23:20:03.0'
+            }
+        }
+
+        def databaseTester = new JdbcDatabaseTester(Driver.class.getName(), URL, USERNAME, PASSWORD)
+        databaseTester.setUpOperation = DatabaseOperation.CLEAN_INSERT
+
+        databaseTester.dataSet = dataSet
+        databaseTester.onSetup()
+
+        expect:
+        def statement = databaseTester.connection.connection.createStatement()
+        ResultSet resultSet = statement.executeQuery(
+                'SELECT test_int, test_str, test_date FROM test_table ORDER BY test_int')
+
+        assert resultSet.next()
+        assert 100 == resultSet.getInt('test_int')
+        assert 'test1' == resultSet.getString('test_str')
+        assert '2016-09-26 23:20:01.0' == new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.S')
+                .format(resultSet.getTimestamp('test_date'))
+
+        assert resultSet.next()
+        assert 200 == resultSet.getInt('test_int')
+        assert 'test2' == resultSet.getString('test_str')
+        assert '2016-09-26 23:20:02.0' == new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.S')
+                .format(resultSet.getTimestamp('test_date'))
+
+        assert resultSet.next()
+        assert 300 == resultSet.getInt('test_int')
+        assert 'test3' == resultSet.getString('test_str')
+        assert '2016-09-26 23:20:03.0' == new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.S')
+                .format(resultSet.getTimestamp('test_date'))
+    }
+
+    def "DBUnit integration test with rotate"() {
+        setup:
+        def dataSet = DbspockLoaders.loadDataSetWithRotate {
+            test_table {
+                test_int  | 100                     | 200                     | 300
+                test_str  | 'test1'                 | 'test2'                 | 'test3'
+                test_date | '2016-09-26 23:20:01.0' | '2016-09-26 23:20:02.0' | '2016-09-26 23:20:03.0'
             }
         }
 

@@ -27,4 +27,24 @@ class DbspockOperationsSpec extends Specification {
         expect:
         assert ops instanceof Operation
     }
+
+    def "Create DataSet instance with rotate"() {
+        setup:
+        def ops = DbspockOperations.insertIntoWithRotate {
+            table1 {
+                col1 | 'rowA1' | 'rowB1'
+                col2 | 'rowA2' | 'rowB2'
+                col3 | 'rowA3' | 'rowB3'
+            }
+
+            table2 {
+                strcol  | 'str1'                | 'str2'
+                intcol  | 100                   | 200
+                datecol | '2016-09-26 18:46:01' | '2016-09-26 18:46:02'
+            }
+        }
+
+        expect:
+        assert ops instanceof Operation
+    }
 }
