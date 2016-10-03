@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Dbspock by yo1000</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Dbspock</h1>
+      <h2 class="project-tagline">Expresses the data as Spockly!</h2>
+      <a href="https://github.com/yo1000/dbspock" class="btn">View on GitHub</a>
+      <a href="https://github.com/yo1000/dbspock/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/yo1000/dbspock/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="dbspock" class="anchor" href="#dbspock" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>dbspock</h1>
+
+<p>Expresses the data as Spockly!</p>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>Can be used in <code>DbSetup</code> or <code>DBUnit</code></p>
+
+<h2>
+<a id="for-dbsetup" class="anchor" href="#for-dbsetup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for DbSetup</h2>
+
+<p>Dependency</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependencies</span>&gt;
+    &lt;<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;com.yo1000&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;dbspock-core&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.1.0.RELEASE&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+    &lt;/<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;com.yo1000&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;dbspock-dbsetup&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.1.0.RELEASE&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+    &lt;/<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;com.ninja-squad&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;DbSetup&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.1.0&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+    &lt;/<span class="pl-ent">dependency</span>&gt;
+&lt;/<span class="pl-ent">dependencies</span>&gt;
+
+&lt;<span class="pl-ent">repositories</span>&gt;
+    &lt;<span class="pl-ent">repository</span>&gt;
+        &lt;<span class="pl-ent">id</span>&gt;com.yo1000&lt;/<span class="pl-ent">id</span>&gt;
+        &lt;<span class="pl-ent">name</span>&gt;yo1000 maven repository&lt;/<span class="pl-ent">name</span>&gt;
+        &lt;<span class="pl-ent">url</span>&gt;http://yo1000.github.io/maven/&lt;/<span class="pl-ent">url</span>&gt;
+    &lt;/<span class="pl-ent">repository</span>&gt;
+&lt;/<span class="pl-ent">repositories</span>&gt;</pre></div>
+
+<p>Setup in spec</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c1">setup</span>:
+<span class="pl-k">def</span> insertOps <span class="pl-k">=</span> <span class="pl-k">DbspockOperations</span><span class="pl-k">.</span>insertInto {
+    test_table {
+        test_int | test_str | test_date
+        <span class="pl-c1">100</span>      | <span class="pl-s"><span class="pl-pds">'</span>test1<span class="pl-pds">'</span></span>  | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:01.0<span class="pl-pds">'</span></span>
+        <span class="pl-c1">200</span>      | <span class="pl-s"><span class="pl-pds">'</span>test2<span class="pl-pds">'</span></span>  | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:02.0<span class="pl-pds">'</span></span>
+        <span class="pl-c1">300</span>      | <span class="pl-s"><span class="pl-pds">'</span>test3<span class="pl-pds">'</span></span>  | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:03.0<span class="pl-pds">'</span></span>
+    }
+}
+
+<span class="pl-k">def</span> destination <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">DriverManagerDestination</span>(<span class="pl-c1">URL</span>, <span class="pl-c1">USERNAME</span>, <span class="pl-c1">PASSWORD</span>)
+<span class="pl-k">new</span> <span class="pl-k">DbSetup</span>(destination,
+        <span class="pl-k">Operations</span><span class="pl-k">.</span>sequenceOf(
+                <span class="pl-k">Operations</span><span class="pl-k">.</span>truncate(<span class="pl-s"><span class="pl-pds">'</span>test_table<span class="pl-pds">'</span></span>),
+                insertOps
+        )
+)<span class="pl-k">.</span>launch()</pre></div>
+
+<p>When using a rotate support</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c1">setup</span>:
+<span class="pl-k">def</span> insertOps <span class="pl-k">=</span> <span class="pl-k">DbspockOperations</span><span class="pl-k">.</span>insertIntoWithRotate {
+    test_table {
+        test_int  | <span class="pl-c1">100</span>                     | <span class="pl-c1">200</span>                     | <span class="pl-c1">300</span>
+        test_str  | <span class="pl-s"><span class="pl-pds">'</span>test1<span class="pl-pds">'</span></span>                 | <span class="pl-s"><span class="pl-pds">'</span>test2<span class="pl-pds">'</span></span>                 | <span class="pl-s"><span class="pl-pds">'</span>test3<span class="pl-pds">'</span></span>
+        test_date | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:01.0<span class="pl-pds">'</span></span> | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:02.0<span class="pl-pds">'</span></span> | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:03.0<span class="pl-pds">'</span></span>
+    }
+}
+
+<span class="pl-k">def</span> destination <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">DriverManagerDestination</span>(<span class="pl-c1">URL</span>, <span class="pl-c1">USERNAME</span>, <span class="pl-c1">PASSWORD</span>)
+<span class="pl-k">new</span> <span class="pl-k">DbSetup</span>(destination,
+        <span class="pl-k">Operations</span><span class="pl-k">.</span>sequenceOf(
+                <span class="pl-k">Operations</span><span class="pl-k">.</span>truncate(<span class="pl-s"><span class="pl-pds">'</span>test_table<span class="pl-pds">'</span></span>),
+                insertOps
+        )
+)<span class="pl-k">.</span>launch()</pre></div>
+
+<h2>
+<a id="for-dbunit" class="anchor" href="#for-dbunit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for DBUnit</h2>
+
+<p>Dependency</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependencies</span>&gt;
+    &lt;<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;com.yo1000&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;dbspock-core&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.1.0.RELEASE&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+    &lt;/<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;com.yo1000&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;dbspock-dbunit&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.1.0.RELEASE&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+    &lt;/<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;org.dbunit&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;dbunit&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.5.3&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+    &lt;/<span class="pl-ent">dependency</span>&gt;
+&lt;/<span class="pl-ent">dependencies</span>&gt;
+
+&lt;<span class="pl-ent">repositories</span>&gt;
+    &lt;<span class="pl-ent">repository</span>&gt;
+        &lt;<span class="pl-ent">id</span>&gt;com.yo1000&lt;/<span class="pl-ent">id</span>&gt;
+        &lt;<span class="pl-ent">name</span>&gt;yo1000 maven repository&lt;/<span class="pl-ent">name</span>&gt;
+        &lt;<span class="pl-ent">url</span>&gt;http://yo1000.github.io/maven/&lt;/<span class="pl-ent">url</span>&gt;
+    &lt;/<span class="pl-ent">repository</span>&gt;
+&lt;/<span class="pl-ent">repositories</span>&gt;</pre></div>
+
+<p>Setup in spec</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c1">setup</span>:
+<span class="pl-k">def</span> dataSet <span class="pl-k">=</span> <span class="pl-k">DbspockLoaders</span><span class="pl-k">.</span>loadDataSet {
+    test_table {
+        test_int | test_str | test_date
+        <span class="pl-c1">100</span>      | <span class="pl-s"><span class="pl-pds">'</span>test1<span class="pl-pds">'</span></span>  | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:01.0<span class="pl-pds">'</span></span>
+        <span class="pl-c1">200</span>      | <span class="pl-s"><span class="pl-pds">'</span>test2<span class="pl-pds">'</span></span>  | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:02.0<span class="pl-pds">'</span></span>
+        <span class="pl-c1">300</span>      | <span class="pl-s"><span class="pl-pds">'</span>test3<span class="pl-pds">'</span></span>  | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:03.0<span class="pl-pds">'</span></span>
+    }
+}
+
+<span class="pl-k">def</span> databaseTester <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">JdbcDatabaseTester</span>(<span class="pl-k">Driver</span><span class="pl-k">.</span>class<span class="pl-k">.</span>getName(), <span class="pl-c1">URL</span>, <span class="pl-c1">USERNAME</span>, <span class="pl-c1">PASSWORD</span>)
+databaseTester<span class="pl-k">.</span>setUpOperation <span class="pl-k">=</span> <span class="pl-k">DatabaseOperation</span><span class="pl-k">.</span><span class="pl-c1">CLEAN_INSERT</span>
+
+databaseTester<span class="pl-k">.</span>dataSet <span class="pl-k">=</span> dataSet
+databaseTester<span class="pl-k">.</span>onSetup()</pre></div>
+
+<p>When using a rotate support</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c1">setup</span>:
+<span class="pl-k">def</span> dataSet <span class="pl-k">=</span> <span class="pl-k">DbspockLoaders</span><span class="pl-k">.</span>loadDataSetWithRotate {
+    test_table {
+        test_int  | <span class="pl-c1">100</span>                     | <span class="pl-c1">200</span>                     | <span class="pl-c1">300</span>
+        test_str  | <span class="pl-s"><span class="pl-pds">'</span>test1<span class="pl-pds">'</span></span>                 | <span class="pl-s"><span class="pl-pds">'</span>test2<span class="pl-pds">'</span></span>                 | <span class="pl-s"><span class="pl-pds">'</span>test3<span class="pl-pds">'</span></span>
+        test_date | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:01.0<span class="pl-pds">'</span></span> | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:02.0<span class="pl-pds">'</span></span> | <span class="pl-s"><span class="pl-pds">'</span>2016-09-26 23:20:03.0<span class="pl-pds">'</span></span>
+    }
+}
+
+<span class="pl-k">def</span> databaseTester <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">JdbcDatabaseTester</span>(<span class="pl-k">Driver</span><span class="pl-k">.</span>class<span class="pl-k">.</span>getName(), <span class="pl-c1">URL</span>, <span class="pl-c1">USERNAME</span>, <span class="pl-c1">PASSWORD</span>)
+databaseTester<span class="pl-k">.</span>setUpOperation <span class="pl-k">=</span> <span class="pl-k">DatabaseOperation</span><span class="pl-k">.</span><span class="pl-c1">CLEAN_INSERT</span>
+
+databaseTester<span class="pl-k">.</span>dataSet <span class="pl-k">=</span> dataSet
+databaseTester<span class="pl-k">.</span>onSetup()</pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/yo1000/dbspock">Dbspock</a> is maintained by <a href="https://github.com/yo1000">yo1000</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
