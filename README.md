@@ -31,14 +31,6 @@ Dependency
         <scope>test</scope>
     </dependency>
 </dependencies>
-    
-<repositories>
-    <repository>
-        <id>com.yo1000</id>
-        <name>yo1000 maven repository</name>
-        <url>http://yo1000.github.io/maven/</url>
-    </repository>
-</repositories>
 ```
 
 Setup in spec
@@ -109,14 +101,6 @@ Dependency
         <scope>test</scope>
     </dependency>
 </dependencies>
-    
-<repositories>
-    <repository>
-        <id>com.yo1000</id>
-        <name>yo1000 maven repository</name>
-        <url>http://yo1000.github.io/maven/</url>
-    </repository>
-</repositories>
 ```
 
 Setup in spec
