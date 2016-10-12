@@ -4,6 +4,10 @@
 .gradle/
 build/
 
+#Maven
+target/
+.settings.xml
+
 # IDEA
 .idea/
 *.iml

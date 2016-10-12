@@ -1,1 +1,0 @@
-include 'dbspock-core', 'dbspock-dbsetup', 'dbspock-dbunit', 'dbspock-specs'
