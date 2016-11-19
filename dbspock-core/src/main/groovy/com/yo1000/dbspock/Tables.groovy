@@ -38,6 +38,21 @@ class TableParser {
         threadLocal.get().columns = columns
         return column
     }
+
+    static row(Object o) {
+        Row row = new Row(new Item(o))
+
+        if (threadLocal.get().rows == null) {
+            threadLocal.get().rows = new Rows()
+        }
+
+        threadLocal.get().rows << row
+        return row
+    }
+
+    static r(o) {
+        return row(o)
+    }
 }
 
 class Tables {
@@ -102,6 +117,43 @@ class Table {
 
     void setRows(Rows rows) {
         this.rows = rows
+    }
+
+    @Override
+    public String toString() {
+        def columnsBuilder = new StringBuilder()
+        columns.each {
+            if (columnsBuilder.length() > 0)
+                columnsBuilder.append(", ")
+            columnsBuilder.append("'${it.name}'")
+        }
+
+        def rowsBuilder = new StringBuilder()
+        rows.each {
+            if (rowsBuilder.length() > 0)
+                rowsBuilder.append(", ")
+
+            rowsBuilder.append("{")
+            def rowBuilder = new StringBuilder()
+            it.each {
+                if (rowBuilder.length() > 0)
+                    rowBuilder.append(", ")
+                rowBuilder.append(it.value)
+            }
+            rowsBuilder.append(rowBuilder.toString())
+            rowsBuilder.append("}")
+        }
+
+        return new StringBuilder("Table{")
+                .append("name='${name}', ")
+                .append("columns=[")
+                .append(columnsBuilder.toString())
+                .append("], ")
+                .append("rows=[")
+                .append(rowsBuilder.toString())
+                .append("]")
+                .append("}")
+                .toString()
     }
 }
 
