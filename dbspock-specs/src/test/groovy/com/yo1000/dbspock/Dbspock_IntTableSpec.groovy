@@ -29,12 +29,17 @@ class Dbspock_IntTableSpec extends Specification {
 
     def "DbSetup integration test"() {
         setup:
+
+        println 100.class
+        println 1.1.class
+        println true.class
+
         def insertOps = DbspockOperations.insertInto {
             int_table {
                 test_int1   | test_int2 | test_int3
-                r(100)      | 1000      | 10000
-                r(200)      | 2000      | 20000
-                r(300)      | 3000      | 30000
+                100         | 1000      | 10000
+                200         | 2000      | 20000
+                300         | 3000      | 30000
             }
         }
 
@@ -111,9 +116,9 @@ class Dbspock_IntTableSpec extends Specification {
         def dataSet = DbspockLoaders.loadDataSet {
             int_table {
                 test_int1   | test_int2 | test_int3
-                r(100)      | 1000      | 10000
-                r(200)      | 2000      | 20000
-                r(300)      | 3000      | 30000
+                100         | 1000      | 10000
+                200         | 2000      | 20000
+                300         | 3000      | 30000
             }
         }
 

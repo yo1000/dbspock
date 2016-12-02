@@ -33,6 +33,38 @@ class TablesSpec extends Specification {
                 null  | 'str1'
                 null  | 'str2'
             }
+
+            tableInt {
+                i1  | i2
+                100 | 1000
+                200 | 2000
+            }
+
+            tableDec {
+                d1    | d2
+                100.1 | 1000.01
+                200.2 | 2000.02
+            }
+
+            tableIntDec {
+                i1  | d2
+                100 | 1000.01
+                200 | 2000.02
+            }
+
+            tableBool {
+                b1    | b2
+                true  | true
+                false | false
+                true  | false
+            }
+
+            tableIntBool {
+                i1   | b2
+                100  | true
+                200  | false
+                300  | false
+            }
         }
 
         data.delegate = new Tables()
@@ -94,5 +126,49 @@ class TablesSpec extends Specification {
         assert tables[3].rows[0].value[1] == 'str1'
         assert tables[3].rows[1].value[0].is(null)
         assert tables[3].rows[1].value[1] == 'str2'
+
+        assert tables[4].name == 'tableInt'
+        assert tables[4].columns[0].name == 'i1'
+        assert tables[4].columns[1].name == 'i2'
+        assert tables[4].rows[0].value[0] == 100
+        assert tables[4].rows[0].value[1] == 1000
+        assert tables[4].rows[1].value[0] == 200
+        assert tables[4].rows[1].value[1] == 2000
+
+        assert tables[5].name == 'tableDec'
+        assert tables[5].columns[0].name == 'd1'
+        assert tables[5].columns[1].name == 'd2'
+        assert tables[5].rows[0].value[0] == 100.1
+        assert tables[5].rows[0].value[1] == 1000.01
+        assert tables[5].rows[1].value[0] == 200.2
+        assert tables[5].rows[1].value[1] == 2000.02
+
+        assert tables[6].name == 'tableIntDec'
+        assert tables[6].columns[0].name == 'i1'
+        assert tables[6].columns[1].name == 'd2'
+        assert tables[6].rows[0].value[0] == 100
+        assert tables[6].rows[0].value[1] == 1000.01
+        assert tables[6].rows[1].value[0] == 200
+        assert tables[6].rows[1].value[1] == 2000.02
+
+        assert tables[7].name == 'tableBool'
+        assert tables[7].columns[0].name == 'b1'
+        assert tables[7].columns[1].name == 'b2'
+        assert tables[7].rows[0].value[0] == true
+        assert tables[7].rows[0].value[1] == true
+        assert tables[7].rows[1].value[0] == false
+        assert tables[7].rows[1].value[1] == false
+        assert tables[7].rows[2].value[0] == true
+        assert tables[7].rows[2].value[1] == false
+
+        assert tables[8].name == 'tableIntBool'
+        assert tables[8].columns[0].name == 'i1'
+        assert tables[8].columns[1].name == 'b2'
+        assert tables[8].rows[0].value[0] == 100
+        assert tables[8].rows[0].value[1] == true
+        assert tables[8].rows[1].value[0] == 200
+        assert tables[8].rows[1].value[1] == false
+        assert tables[8].rows[2].value[0] == 300
+        assert tables[8].rows[2].value[1] == false
     }
 }

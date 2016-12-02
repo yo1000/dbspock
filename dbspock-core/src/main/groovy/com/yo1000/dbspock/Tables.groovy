@@ -23,6 +23,36 @@ class TableParser {
 
     /**
      *
+     * @param self Row value
+     * @param operand Row
+     */
+    static or(Number self, Number operand) {
+        Row row = new Item(self) | operand
+
+        if (threadLocal.get().rows == null) {
+            threadLocal.get().rows = new Rows()
+        }
+        threadLocal.get().rows << row
+        return row
+    }
+
+    /**
+     *
+     * @param self Row value
+     * @param operand Row
+     */
+    static or(Boolean self, Boolean operand) {
+        Row row = new Item(self) | operand
+
+        if (threadLocal.get().rows == null) {
+            threadLocal.get().rows = new Rows()
+        }
+        threadLocal.get().rows << row
+        return row
+    }
+
+    /**
+     *
      * @param name Column name
      * @return Column
      */
