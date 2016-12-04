@@ -141,3 +141,56 @@ databaseTester.setUpOperation = DatabaseOperation.CLEAN_INSERT
 databaseTester.dataSet = dataSet
 databaseTester.onSetup()
 ```
+
+When using a expectation support.
+
+```
+setup:
+def dataSet = DbspockLoaders.loadDataSet {
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        200      | 'test2'  | '2016-09-26 23:20:02.0'
+        300      | 'test3'  | '2016-09-26 23:20:03.0'
+    }
+}
+
+def databaseTester = new JdbcDatabaseTester(Driver.class.getName(), URL, USERNAME, PASSWORD)
+databaseTester.setUpOperation = DatabaseOperation.CLEAN_INSERT
+
+databaseTester.dataSet = dataSet
+databaseTester.onSetup()
+
+expect:
+DbspockExpectations.matches(databaseTester.connection, {
+   test_table {
+       test_int | test_str | test_date
+       100      | 'test1'  | '2016-09-26 23:20:01.0'
+       200      | 'test2'  | '2016-09-26 23:20:02.0'
+       300      | 'test3'  | '2016-09-26 23:20:03.0'
+   }
+})
+
+DbspockExpectations.containsAll(databaseTester.connection, {
+   test_table {
+       test_int | test_str | test_date
+       100      | 'test1'  | '2016-09-26 23:20:01.0'
+       300      | 'test3'  | '2016-09-26 23:20:03.0'
+   }
+})
+
+DbspockExpectations.containsAny(databaseTester.connection, {
+   test_table {
+       test_int | test_str | test_date
+       100      | 'test1'  | '2016-09-26 23:20:01.0'
+       900      | 'test9'  | '2020-09-26 23:20:03.0'
+   }
+})
+
+DbspockExpectations.containsNone(databaseTester.connection, {
+   test_table {
+       test_int | test_str | test_date
+       900      | 'test9'  | '2020-09-26 23:20:03.0'
+   }
+})
+```
