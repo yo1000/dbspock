@@ -144,7 +144,7 @@ databaseTester.onSetup()
 
 When using a expectation support.
 
-```
+```groovy
 setup:
 def dataSet = DbspockLoaders.loadDataSet {
     test_table {
