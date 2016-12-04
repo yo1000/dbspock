@@ -10,21 +10,21 @@ import com.yo1000.dbspock.Tables
  * @author yo1000
  */
 class DbspockOperations {
-    public static Operation insertInto(Closure data) {
+    static Operation insertInto(Closure data) {
         data.delegate = new Tables()
         data.call()
 
         return insertInto(data.tables as List<Table>)
     }
 
-    public static Operation insertIntoWithRotate(Closure data) {
+    static Operation insertIntoWithRotate(Closure data) {
         data.delegate = new RotateTables()
         data.call()
 
         return insertInto(data.rotate().tables as List<Table>)
     }
 
-    protected static Operation insertInto(List<Table> tables) {
+    static Operation insertInto(List<Table> tables) {
         def opsList = []
 
         tables.each {
