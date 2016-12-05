@@ -6,13 +6,13 @@
 
     <groupId>com.yo1000</groupId>
     <artifactId>dbspock-specs</artifactId>
-    <version>2.1.2.RELEASE</version>
+    <version>2.2.0.RELEASE</version>
     <packaging>jar</packaging>
 
     <name>dbspock specs</name>
 
     <properties>
-        <dbspock.version>2.1.2.RELEASE</dbspock.version>
+        <dbspock.version>2.2.0.RELEASE</dbspock.version>
         <junit.version>4.12</junit.version>
         <groovy.version>2.4.7</groovy.version>
         <groovy-spock.version>1.1-groovy-2.4-rc-2</groovy-spock.version>

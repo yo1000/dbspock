@@ -11,21 +11,21 @@ import org.dbunit.dataset.xml.FlatXmlDataSet
  * @author yo1000
  */
 class DbspockLoaders {
-    public static IDataSet loadDataSet(Closure data) {
+    static IDataSet loadDataSet(Closure data) {
         data.delegate = new Tables()
         data.call()
 
         return loadDataSet(data.tables as List<Table>)
     }
 
-    public static IDataSet loadDataSetWithRotate(Closure data) {
+    static IDataSet loadDataSetWithRotate(Closure data) {
         data.delegate = new RotateTables()
         data.call()
 
         return loadDataSet(data.rotate().tables as List<Table>)
     }
 
-    protected static IDataSet loadDataSet(List<Table> tables) {
+    static IDataSet loadDataSet(List<Table> tables) {
         def dataSetBuilder = new StringBuilder("<dataset>")
 
         tables.each {

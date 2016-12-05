@@ -6,7 +6,7 @@
 
     <groupId>com.yo1000</groupId>
     <artifactId>dbspock</artifactId>
-    <version>2.1.2.RELEASE</version>
+    <version>2.2.0.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>dbsock</name>

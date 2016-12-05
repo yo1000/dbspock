@@ -6,7 +6,7 @@
 
     <groupId>com.yo1000</groupId>
     <artifactId>dbspock-parent</artifactId>
-    <version>2.1.2.RELEASE</version>
+    <version>2.2.0.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>dbsock-parent</name>
@@ -59,17 +59,17 @@
             <dependency>
                 <groupId>com.yo1000</groupId>
                 <artifactId>dbspock-core</artifactId>
-                <version>2.1.2.RELEASE</version>
+                <version>2.2.0.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.yo1000</groupId>
                 <artifactId>dbspock-dbsetup</artifactId>
-                <version>2.1.2.RELEASE</version>
+                <version>2.2.0.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.yo1000</groupId>
                 <artifactId>dbspock-dbunit</artifactId>
-                <version>2.1.2.RELEASE</version>
+                <version>2.2.0.RELEASE</version>
             </dependency>
 
             <dependency>

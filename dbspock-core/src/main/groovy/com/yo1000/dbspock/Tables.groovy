@@ -118,6 +118,12 @@ class Tables {
     List<Table> getTables() {
         return tables
     }
+
+    static List<Table> asList(Closure data) {
+        data.delegate = new Tables()
+        data.call()
+        return data.tables
+    }
 }
 
 class Table {
