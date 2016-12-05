@@ -25,6 +25,12 @@ Dependency
         <scope>test</scope>
     </dependency>
     <dependency>
+        <groupId>com.yo1000</groupId>
+        <artifactId>dbspock-jdbc</artifactId>
+        <version>2.3.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
         <groupId>com.ninja-squad</groupId>
         <artifactId>DbSetup</artifactId>
         <version>2.1.0</version>
@@ -74,6 +80,61 @@ new DbSetup(destination,
                 insertOps
         )
 ).launch()
+```
+
+When using a expectation support.
+
+```groovy
+setup:
+def insertOps = DbspockOperations.insertInto {
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        200      | 'test2'  | '2016-09-26 23:20:02.0'
+        300      | 'test3'  | '2016-09-26 23:20:03.0'
+    }
+}
+
+def destination = new DriverManagerDestination(URL, USERNAME, PASSWORD)
+new DbSetup(destination,
+        Operations.sequenceOf(
+                Operations.truncate('test_table'),
+                insertOps
+        )
+).launch()
+
+expect:
+DbspockExpectations.matches(destination.connection, {
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        200      | 'test2'  | '2016-09-26 23:20:02.0'
+        300      | 'test3'  | '2016-09-26 23:20:03.0'
+    }
+})
+
+DbspockExpectations.containsAll(destination.connection, {
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        300      | 'test3'  | '2016-09-26 23:20:03.0'
+    }
+})
+
+DbspockExpectations.containsAny(destination.connection, {
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        900      | 'test9'  | '2020-09-26 23:20:03.0'
+    }
+})
+
+DbspockExpectations.containsNone(destination.connection, {
+    test_table {
+        test_int | test_str | test_date
+        900      | 'test9'  | '2020-09-26 23:20:03.0'
+    }
+})
 ```
 
 ## for DBUnit
@@ -163,34 +224,34 @@ databaseTester.onSetup()
 
 expect:
 DbspockExpectations.matches(databaseTester.connection, {
-   test_table {
-       test_int | test_str | test_date
-       100      | 'test1'  | '2016-09-26 23:20:01.0'
-       200      | 'test2'  | '2016-09-26 23:20:02.0'
-       300      | 'test3'  | '2016-09-26 23:20:03.0'
-   }
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        200      | 'test2'  | '2016-09-26 23:20:02.0'
+        300      | 'test3'  | '2016-09-26 23:20:03.0'
+    }
 })
 
 DbspockExpectations.containsAll(databaseTester.connection, {
-   test_table {
-       test_int | test_str | test_date
-       100      | 'test1'  | '2016-09-26 23:20:01.0'
-       300      | 'test3'  | '2016-09-26 23:20:03.0'
-   }
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        300      | 'test3'  | '2016-09-26 23:20:03.0'
+    }
 })
 
 DbspockExpectations.containsAny(databaseTester.connection, {
-   test_table {
-       test_int | test_str | test_date
-       100      | 'test1'  | '2016-09-26 23:20:01.0'
-       900      | 'test9'  | '2020-09-26 23:20:03.0'
-   }
+    test_table {
+        test_int | test_str | test_date
+        100      | 'test1'  | '2016-09-26 23:20:01.0'
+        900      | 'test9'  | '2020-09-26 23:20:03.0'
+    }
 })
 
 DbspockExpectations.containsNone(databaseTester.connection, {
-   test_table {
-       test_int | test_str | test_date
-       900      | 'test9'  | '2020-09-26 23:20:03.0'
-   }
+    test_table {
+        test_int | test_str | test_date
+        900      | 'test9'  | '2020-09-26 23:20:03.0'
+    }
 })
 ```
