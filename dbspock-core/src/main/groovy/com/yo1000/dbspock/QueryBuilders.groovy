@@ -16,8 +16,10 @@ class QueryBuilders {
             row.eachWithIndex { item, j ->
                 def column = table.columns[j].name
                 def value = row[j].value
+                def escaped = (value instanceof String && value ==~ /.*'.*/) ?
+                        (value as String).replace("'", "''") : value
                 def quote = "${value instanceof Number ? "" : "'"}"
-                query += "${j > 0 ? ' and' : ''} ${column}=${quote}${value}${quote}"
+                query += "${j > 0 ? ' and' : ''} ${column}=${quote}${escaped}${quote}"
             }
             query += " )"
         }

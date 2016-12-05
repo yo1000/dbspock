@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yo1000</groupId>
-    <artifactId>dbspock-core</artifactId>
+    <artifactId>dbspock-jdbc</artifactId>
     <version>2.3.0.RELEASE</version>
     <packaging>jar</packaging>
 
-    <name>dbspock core</name>
+    <name>dbspock jdbc</name>
 
     <parent>
         <groupId>com.yo1000</groupId>
@@ -49,6 +49,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.yo1000</groupId>
+            <artifactId>dbspock-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
