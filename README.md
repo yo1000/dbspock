@@ -82,7 +82,7 @@ new DbSetup(destination,
 ).launch()
 ```
 
-When using a expectation support.
+When using a expectation support
 
 ```groovy
 setup:
@@ -203,7 +203,7 @@ databaseTester.dataSet = dataSet
 databaseTester.onSetup()
 ```
 
-When using a expectation support.
+When using a expectation support
 
 ```groovy
 setup:
