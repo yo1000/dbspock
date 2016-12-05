@@ -1,32 +1,52 @@
 package com.yo1000.dbspock
 
-import com.yo1000.dbspock.dbunit.DbspockExpectations
-import com.yo1000.dbspock.dbunit.DbspockLoaders
-import org.dbunit.IDatabaseTester
-import org.dbunit.JdbcDatabaseTester
-import org.dbunit.operation.DatabaseOperation
+import com.ninja_squad.dbsetup.DbSetup
+import com.ninja_squad.dbsetup.Operations
+import com.ninja_squad.dbsetup.destination.Destination
+import com.ninja_squad.dbsetup.destination.DriverManagerDestination
+import com.yo1000.dbspock.dbsetup.DbspockOperations
+import com.yo1000.dbspock.jdbc.DbspockExpectations
 import org.flywaydb.core.Flyway
-import org.h2.Driver
 import spock.lang.Shared
 import spock.lang.Specification
 /**
  *
  * @author yo1000
  */
-class Dbspock_DBUnitExpectSpec extends Specification {
+class Dbspock_JdbcExpectSpec extends Specification {
     def static final URL = 'jdbc:h2:file:./build/testdb'
     def static final USERNAME = 'sa'
     def static final PASSWORD = ''
 
     @Shared
-    IDatabaseTester databaseTester
+    Destination destination = new DriverManagerDestination(URL, USERNAME, PASSWORD)
 
     def setup() {
         Flyway flyway = new Flyway();
         flyway.setDataSource(URL, USERNAME, PASSWORD);
         flyway.migrate();
 
-        def tables = Tables.asList {
+        def insertOps = DbspockOperations.insertInto {
+            test_table {
+                test_int | test_str | test_date
+                100      | 'test1'  | '2016-09-26 23:20:01.0'
+                200      | 'test2'  | '2016-09-26 23:20:02.0'
+                300      | 'test3'  | '2016-09-26 23:20:03.0'
+                400      | "test'"  | '2016-09-26 23:20:04.0'
+            }
+        }
+
+        new DbSetup(destination,
+                Operations.sequenceOf(
+                        Operations.truncate('test_table'),
+                        insertOps
+                )
+        ).launch()
+    }
+
+    def "Jdbc expect matches test"() {
+        expect:
+        def data = {
             test_table {
                 test_int | test_str | test_date
                 100      | 'test1'  | '2016-09-26 23:20:01.0'
@@ -43,37 +63,10 @@ class Dbspock_DBUnitExpectSpec extends Specification {
             }
         }
 
-        def dataSet = DbspockLoaders.loadDataSet(tables)
-        databaseTester = new JdbcDatabaseTester(Driver.class.getName(), URL, USERNAME, PASSWORD)
-        databaseTester.setUpOperation = DatabaseOperation.CLEAN_INSERT
-
-        databaseTester.dataSet = dataSet
-        databaseTester.onSetup()
+        DbspockExpectations.matches(destination.connection, data)
     }
 
-    def "DBUnit expect matches test"() {
-        expect:
-        def data = {
-            test_table {
-                test_int | test_str | test_date
-                100      | 'test1'  | '2016-09-26 23:20:01.0'
-                200      | 'test2'  | '2016-09-26 23:20:02.0'
-                300      | 'test3'  | '2016-09-26 23:20:03.0'
-                400      | "test'"  | '2016-09-26 23:20:04.0'
-            }
-
-            demo_table {
-                test_dec1  | test_dec2
-                100.1      | 1000.01
-                200.2      | 2000.02
-                200.3      | 2000.03
-            }
-        }
-
-        DbspockExpectations.matches(databaseTester.connection, data)
-    }
-
-    def "DBUnit expect containsAll test"() {
+    def "Jdbc expect containsAll test"() {
         expect:
         def data = {
             test_table {
@@ -90,10 +83,10 @@ class Dbspock_DBUnitExpectSpec extends Specification {
             }
         }
 
-        DbspockExpectations.containsAll(databaseTester.connection, data)
+        DbspockExpectations.containsAll(destination.connection, data)
     }
 
-    def "DBUnit expect containsAny test"() {
+    def "Jdbc expect containsAny test"() {
         expect:
         def data = {
             test_table {
@@ -112,11 +105,11 @@ class Dbspock_DBUnitExpectSpec extends Specification {
             }
         }
 
-        DbspockExpectations.containsAny(databaseTester.connection, data)
+        DbspockExpectations.containsAny(destination.connection, data)
     }
 
 
-    def "DBUnit expect containsNone test"() {
+    def "Jdbc expect containsNone test"() {
         expect:
         def data = {
             test_table {
@@ -130,6 +123,6 @@ class Dbspock_DBUnitExpectSpec extends Specification {
             }
         }
 
-        DbspockExpectations.containsNone(databaseTester.connection, data)
+        DbspockExpectations.containsNone(destination.connection, data)
     }
 }

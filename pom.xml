@@ -18,6 +18,7 @@
         <module>dbspock-core</module>
         <module>dbspock-dbsetup</module>
         <module>dbspock-dbunit</module>
+        <module>dbspock-jdbc</module>
         <module>dbspock-specs</module>
     </modules>
 

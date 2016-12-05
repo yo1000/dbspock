@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>com.yo1000</groupId>
+            <artifactId>dbspock-jdbc</artifactId>
+            <version>${dbspock.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yo1000</groupId>
             <artifactId>dbspock-dbsetup</artifactId>
             <version>${dbspock.version}</version>
         </dependency>
@@ -58,6 +63,11 @@
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
             <version>${dbunit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ninja-squad</groupId>
+            <artifactId>DbSetup</artifactId>
+            <version>${dbsetup.version}</version>
         </dependency>
 
         <dependency>

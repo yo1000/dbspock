@@ -63,6 +63,11 @@
             </dependency>
             <dependency>
                 <groupId>com.yo1000</groupId>
+                <artifactId>dbspock-jdbc</artifactId>
+                <version>2.2.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yo1000</groupId>
                 <artifactId>dbspock-dbsetup</artifactId>
                 <version>2.2.0.RELEASE</version>
             </dependency>
