@@ -15,13 +15,13 @@ Dependency
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-core</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-dbsetup</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
@@ -85,13 +85,13 @@ Dependency
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-core</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>com.yo1000</groupId>
         <artifactId>dbspock-dbunit</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
     <dependency>
